@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: gridvo-mosca
+  name: gridvo-mosca
+  namespace: gridvo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: gridvo-mosca
+    spec:
+      containers:
+      - name: gridvo-mosca
+        image: 10.0.3.31:5000/gridvo/gridvo-mosca:dev
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 443
+        - containerPort: 1883
+        volumeMounts:
+        - name: keys-path
+          mountPath: "/home/keys"
+          readOnly: true
+        env:
+        - name: MONGODB_SERVICE_HOST
+          value: "mongodb"
+        - name: MONGODB_SERVICE_PORT
+          value: "27017"
+        - name: SSL_KEY_PATH
+          value: "/home/keys/gridvocomrsa.key"
+        - name: SSL_CA_PATH
+          value: "/home/keys/1_root_bundle.crt"
+        - name: SSL_CERT_PATH
+          value: "/home/keys/1_www.gridvo.com_bundle.crt"
+        - name: IS_DEBUG
+          value: "true"
+      volumes:
+      - name: keys-path
+        hostPath:
+          path: "/var/gridvo/keys"

@@ -1,0 +1,7 @@
+﻿version: '2'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+     - "127.0.0.1:27017:27017"

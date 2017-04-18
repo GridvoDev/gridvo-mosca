@@ -1,0 +1,23 @@
+{
+  "name": "gridvo-mosca",
+  "version": "0.0.1",
+  "author": {
+    "name": "linmadan",
+    "email": "772181827@qq.com"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --recursive"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "mqtt": "^2.6.0",
+    "muk": "^0.5.3",
+    "should": "^11.2.1"
+  },
+  "dependencies": {
+    "gridvo-common-js": "0.0.23",
+    "mongodb": "^2.2.25",
+    "mosca": "^2.3.0",
+    "underscore": "^1.8.3"
+  }
+}
