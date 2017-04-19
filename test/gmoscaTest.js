@@ -51,6 +51,8 @@ describe('gmosca use case test', () => {
                     }
                     callback(null, 1);
                 };
+                mockRecorder.destroy = () => {
+                };
                 muk(gmosca, "_recorder", mockRecorder);
                 client.publish('/test/topic', 'test');
             });
