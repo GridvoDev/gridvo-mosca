@@ -63,6 +63,41 @@ describe('gmosca use case test', () => {
             });
         });
     });
+    describe('gmosca sessionService method can be call when some topic is published', () => {
+        context('will close client when "gridvo/command/gmosca/kick-client" topic is published', () => {
+            let client;
+            before(done => {
+                client = mqtt.connect('wss://www.gridvo.com', {
+                    clientId: "test-client-id"
+                });
+                client.on('connect', () => {
+                    done();
+                });
+            });
+            it('do nothing if server id or client id is no matching', () => {
+                let payload = {
+                    serverID: "no-server-id",
+                    clientID: "test-client-id"
+                };
+                client.publish('gridvo/command/gmosca/kick-client', JSON.stringify(payload), {qos: 1, retain: true});
+            });
+            it('sessionService.remove method called if server id and client id is matching', done => {
+                let mockSessionService = {};
+                mockSessionService.remove = (serverID, clientID, callback) => {
+                    serverID.should.eql(gmosca.id);
+                    clientID.should.eql("test-client-id");
+                    callback(null, {serverID: gmosca.id, clientID: "test-client-id"});
+                    done();
+                };
+                muk(gmosca, "_sessionService", mockSessionService);
+                let payload = {
+                    serverID: gmosca.id,
+                    clientID: "test-client-id"
+                };
+                client.publish('gridvo/command/gmosca/kick-client', JSON.stringify(payload), {qos: 1, retain: true});
+            });
+        });
+    });
     after(done => {
         gmosca.close(() => {
             done();
