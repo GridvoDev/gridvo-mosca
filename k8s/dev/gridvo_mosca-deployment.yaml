@@ -6,7 +6,7 @@ metadata:
   name: gridvo-mosca
   namespace: gridvo
 spec:
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
