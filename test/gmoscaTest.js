@@ -18,8 +18,12 @@ describe('gmosca use case test', () => {
         context('record mqtt packet', () => {
             let client;
             before(done => {
+                let options = {
+                    username: 'gridvo',
+                    password: 'gridvo'
+                }
                 // client = mqtt.connect('mqtt://127.0.0.1:1883');
-                client = mqtt.connect('wss://www.gridvo.com');
+                client = mqtt.connect('wss://www.gridvo.com', options);
                 client.on('connect', () => {
                     done();
                 });
@@ -67,9 +71,12 @@ describe('gmosca use case test', () => {
         context('will close client when "gridvo/command/gmosca/kick-client" topic is published', () => {
             let client;
             before(done => {
-                client = mqtt.connect('wss://www.gridvo.com', {
-                    clientId: "test-client-id"
-                });
+                let options = {
+                    clientId: "test-client-id",
+                    username: 'gridvo',
+                    password: 'gridvo'
+                }
+                client = mqtt.connect('wss://www.gridvo.com', options);
                 client.on('connect', () => {
                     done();
                 });
